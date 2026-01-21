@@ -385,6 +385,45 @@ h2 {
     border-radius: 8px; margin-bottom: 20px;
 }
 
+/* Styling the new button */
+.project-cta {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 20px;
+    color: var(--accent-blue); /* Replace with your primary color */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: gap 0.3s ease;
+    gap: 8px;
+}
+
+.project-cta i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.project-cta:hover {
+    color: var(--accent-blue)-accent-blue; /* Optional hover color change */
+}
+
+.project-cta:hover i {
+    transform: translateX(5px); /* Arrow nudges right on hover */
+}
+
+/* Ensure the card has space for the button */
+.project-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.project-tags span {
+    font-size: 11px; background: #1a1a1a; padding: 5px 10px; border-radius: 15px;
+    color: var(--text-muted); margin-right: 5px;
+}
+
 
 /* Experience */
 .experience-card {
@@ -461,7 +500,7 @@ footer {
 
 
 
-/* --- Contact Info Link Fixes --- */
+/* --- Contact Info Link --- */
 
 /* 1. Removes default blue link color and underlines */
 .info-item-link {
@@ -493,3 +532,6 @@ footer {
 .info-item-link:hover .fa-whatsapp {
     color: #25D366 !important;
 }
+
+
+
