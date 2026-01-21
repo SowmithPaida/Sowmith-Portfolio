@@ -1,22 +1,55 @@
-// Smooth Scroll for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
+// 1. Configuration Constants (Easier to maintain)
+const THEME_CONFIG = {
+    headerScrollClass: 'header-scrolled',
+    scrollThreshold: 0.15, // 15% of Hero visible
+};
 
-// Navbar Background on Scroll
-window.addEventListener('scroll', () => {
+// 2. Optimized Header Logic (using Intersection Observer)
+// This is more performant than 'window.onscroll'
+const initHeader = () => {
     const header = document.querySelector('header');
-    if (window.scrollY > 50) {
-        header.style.backgroundColor = 'rgba(5, 5, 5, 0.95)';
-    } else {
-        header.style.backgroundColor = 'rgba(5, 5, 5, 0.9)';
-    }
-});
+    const heroSection = document.querySelector('.hero');
 
-// Simple Console Message
-console.log("Welcome to Sowmith's Portfolio! Built with clean code.");
+    if (!header || !heroSection) return;
+
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // When hero is NOT intersecting (scrolled past), add class
+            if (!entry.isIntersecting) {
+                header.classList.add(THEME_CONFIG.headerScrollClass);
+            } else {
+                header.classList.remove(THEME_CONFIG.headerScrollClass);
+            }
+        });
+    }, { threshold: THEME_CONFIG.scrollThreshold });
+
+    navObserver.observe(heroSection);
+};
+
+// 3. Smooth Navigation (Event Delegation)
+// Instead of multiple listeners, we use one listener on the parent (Best Practice)
+const initNavigation = () => {
+    document.addEventListener('click', (e) => {
+        const anchor = e.target.closest('a[href^="#"]');
+        if (!anchor) return;
+
+        e.preventDefault();
+        const targetId = anchor.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+};
+
+// 4. Initialize all functions when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    initHeader();
+    initNavigation();
+    
+    console.log("%c Portfolio Initialized ", "color: white; background: #61dbfb; font-weight: bold; padding: 2px 5px;", "React mindset applied.");
+});
